@@ -1,7 +1,8 @@
 const express = require('express');
 const fs = require('fs');
+const path = require('path');
 const app = express();
-const PORT = 3000;
+
 
 app.use(express.json());
 app.use(express.static('public'));
@@ -118,6 +119,6 @@ app.get('/api/horarios', (req, res) => {
     res.json({ horarios: horarios, agendamentos: agendamentos });
   });
   
-app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://agendamentosmanicure.onrender.com:${PORT}`);
+app.listen( () => {
+  console.log(`Servidor rodando em http://agendamentosmanicure.onrender.com`);
 });
