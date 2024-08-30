@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendamento de Horários</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+  <link rel="stylesheet" href="style.css">
+
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- font-awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Seu script JS -->
+  <script src="script.js" defer></script>
+  <style>
+    /* Estilo adicional para o modal */
+    .modal-content {
+      border-radius: 8px;
+    }
+body{
+  background-color: #edf2f7;
+}
+ 
+
+    .modal-footer {
+      border-top: none;
+    }
+
+    .btn-primary {
+      background-color: #3182ce;
+      border-color: #3182ce;
+    }
+
+    .btn-secondary {
+      background-color: #718096;
+      border-color: #718096;
+    }
+
+    .card-header {
+      background-color: #2d3748;
+      color: #ffffff;
+    }
+
+    .card {
+      border-radius: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .step {
+      padding: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    }
+
+    .step h6 {
+      margin-bottom: 10px;
+    }
+
+    .container button {
+      font-weight: bold;
+      border-radius: 30px;
+      transition: background-color 0.2s ease;
+    }
+
+    .container button:hover {
+      background-color: #2b6cb0;
+    }
+
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: none;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #38b2ac;
+      color: #ffffff;
+    }
+
+ 
+
+
+.cancel-btn-container {
+    position: absolute;
+    top: -1px; /* Ajuste a distância do topo conforme necessário */
+    right: 1px; /* Ajuste a distância da borda direita conforme necessário */
+}
+
+.cancelar-btn {
+    padding: 2px 8px; /* Ajuste o padding se necessário */
+}
+  </style>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="notification" id="notification"></div>
+
+  <div class="w-full max-w-3xl">
+    <!-- Botão para abrir o modal -->
+    <div class="container mt-4 text-center">
+      <button type="button" class="btn btn-primary mb-3 px-4 py-2" data-toggle="modal" data-target="#agendarModal">
+        Agendar Novo Horário +
+      </button>
+    </div>
+
+    <!-- Modal para Agendar Horário -->
+    <div class="modal fade" id="agendarModal" tabindex="-1" role="dialog" aria-labelledby="agendarModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+     
+          <form id="agendar-form">
+        
+            <div class="modal-body">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btclose">
+                <span aria-hidden="true">&times;</span>
+            </button>
+           <!-- Step 1 -->
+           <div class="step step-1">
+            <h6>Vamos agendar um serviço hoje?</h6>
+            <div class="form-group">
+              <label for="data">Data:</label>
+              <input type="date" id="data" class="form-control" required>
+            </div>
+          </div>
+              <!-- Step 2 -->
+              <div class="step step-2 d-none">
+                <h6>Para qual horário você gostaria de agendar?</h6>
+                <div class="form-group">
+                  <label for="horario">Horário:</label>
+                  <select id="horario" class="form-control" required>
+                    <!-- Horários serão preenchidos via JavaScript -->
+                  </select>
+                </div>
+              </div>
+              <!-- Step 3 -->
+              <div class="step step-3 d-none">
+                <h6>Qual é o seu nome?</h6>
+                <div class="form-group">
+                  <label for="nome">Nome do Cliente:</label>
+                  <input type="text" id="nome" class="form-control" required>
+                </div>
+              </div>
+              <!-- Step 4 -->
+              <div class="step step-4 d-none">
+                <h6>Qual serviço você gostaria de agendar?</h6>
+                <div class="form-group">
+                  <label for="servico">Tipo de Serviço:</label>
+                  <select id="servico" class="form-control" required>
+                    <option value="Manicure">Manicure</option>
+                    <option value="Pedicure">Pedicure</option>
+                    <option value="Manicure e Pedicure">Manicure e Pedicure</option>
+                    <option value="Esmaltação">Esmaltação</option>
+                    <option value="Aplicação de Unhas Postiças">Aplicação de Unhas Postiças</option>
+                    <option value="Francesinha">Francesinha</option>
+                    <option value="Aplicação de Adesivo">Aplicação de Adesivo</option>
+                    <option value="SOS dos Pés">SOS dos Pés</option>
+                    <option value="SPA dos Pés">SPA dos Pés</option>
+                    <option value="Remoção de Cutícula">Remoção de Cutícula</option>
+                    <option value="Hidratação de Mãos">Hidratação de Mãos</option>
+                    <option value="Esfoliação">Esfoliação</option>
+                    <option value="Banho de Gel">Banho de Gel</option>
+                  </select>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary prev-step">Anterior</button>
+                <button type="button" class="btn btn-primary next-step">Próximo</button>
+                <button type="submit" class="btn btn-primary submit-btn d-none">Agendar</button>
+              </div>
+            </div>
+           
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção de Agendamentos de Hoje -->
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="mb-0">Hoje</h4>
+            </div>
+            <div class="card-body">
+              <div id="hoje-list">
+                <h2 class="text-lg font-semibold mb-4">Agendamentos de Hoje</h2>
+                <!-- Agendamentos para hoje serão preenchidos via JavaScript -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção de Todos os Agendamentos -->
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="mb-0">Agendamentos</h4>
+            </div>
+            <div class="card-body">
+              <div id="agendamentos-list">
+                <h2 class="text-lg font-semibold mb-4">Todos os Agendamentos</h2>
+                <!-- Todos os agendamentos serão preenchidos via JavaScript -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
