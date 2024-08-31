@@ -120,5 +120,5 @@ app.get('/api/horarios', (req, res) => {
   });
   
 app.listen( () => {
-  console.log(`Servidor rodando em http://agendamentosmanicure.onrender.com`);
+  console.log(`Servidor rodando em https://agendamentosmanicure.onrender.com`);
 });
