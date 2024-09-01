@@ -2,7 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
-
+const PORT = process.env.PORT || 3000; // Use Render's dynamic port or 3000 locally
 
 app.use(express.json());
 app.use(express.static('public'));
@@ -119,6 +119,6 @@ app.get('/api/horarios', (req, res) => {
     res.json({ horarios: horarios, agendamentos: agendamentos });
   });
   
-app.listen( () => {
-  console.log(`Servidor rodando em https://agendamentosmanicure.onrender.com`);
-});
+  app.listen(PORT, () => {
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
+  });
