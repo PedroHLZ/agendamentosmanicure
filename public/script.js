@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     // Função para carregar horários e agendamentos do servidor
     function carregarHorarios() {
-        $.get('http://localhost:3000/api/horarios', function (data) {
+        $.get('https://agendamentosmanicure.onrender.com/api/horarios', function (data) {
             const { horarios, agendamentos } = data;
             const horarioSelect = $('#horario');
             horarioSelect.empty();
@@ -115,7 +115,7 @@ $(document).ready(function () {
         const servico = $('#servico').val();
   
         $.ajax({
-            url: 'http://localhost:3000/api/agendar',
+            url: 'https://agendamentosmanicure.onrender.com/api/agendar',
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({ horario, data, nome, servico }),
@@ -176,7 +176,7 @@ $(document).ready(function () {
   
     function cancelarAgendamento(horario, data) {
         $.ajax({
-            url: `http://localhost:3000/api/cancelar?horario=${encodeURIComponent(horario)}&data=${encodeURIComponent(data)}`,
+            url: `https://agendamentosmanicure.onrender.com/api/cancelar?horario=${encodeURIComponent(horario)}&data=${encodeURIComponent(data)}`,
             method: 'DELETE',
             success: function (response) {
                 $('#notification').text(response.message).removeClass('hide').addClass('show');
