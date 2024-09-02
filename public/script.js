@@ -29,6 +29,37 @@ $(document).ready(function () {
                     data1.getDate() === data2.getDate();
             }
 
+            // Ordenar os agendamentos por data e hora
+            agendamentos.sort((a, b) => {
+                let dataA, dataB;
+                const dataStringA = a.data;
+                const dataStringB = b.data;
+
+                // Converter a.data
+                if (/\d{2}\/\d{2}\/\d{4}/.test(dataStringA)) {
+                    const partesData = dataStringA.split('/');
+                    const dataFormatadaA = `${partesData[2]}-${partesData[1]}-${partesData[0]}`;
+                    dataA = new Date(`${dataFormatadaA}T${a.horario}`);
+                } else if (/^\d{4}-\d{2}-\d{2}$/.test(dataStringA)) {
+                    dataA = new Date(`${dataStringA}T${a.horario}`);
+                } else {
+                    dataA = new Date();
+                }
+
+                // Converter b.data
+                if (/\d{2}\/\d{2}\/\d{4}/.test(dataStringB)) {
+                    const partesData = dataStringB.split('/');
+                    const dataFormatadaB = `${partesData[2]}-${partesData[1]}-${partesData[0]}`;
+                    dataB = new Date(`${dataFormatadaB}T${b.horario}`);
+                } else if (/^\d{4}-\d{2}-\d{2}$/.test(dataStringB)) {
+                    dataB = new Date(`${dataStringB}T${b.horario}`);
+                } else {
+                    dataB = new Date();
+                }
+
+                return dataA - dataB;
+            });
+
             // Adiciona todos os agendamentos na lista geral
             agendamentos.forEach(agendamento => {
                 let dataAgendamento;
